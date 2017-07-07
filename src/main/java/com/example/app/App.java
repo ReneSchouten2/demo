@@ -13,7 +13,7 @@ import javax.xml.transform.stream.*;
 public class Server implements Provider<Source> {
 
     public Source invoke(Source request) {
-        return  new StreamSource(new StringReader(Dep.hello("GitLab"));
+        return  new StreamSource(new StringReader(Dep.hello("GitLab")));
     }
 
     public static void main(String[] args) throws InterruptedException {
