@@ -10,7 +10,7 @@ import javax.xml.transform.stream.*;
 
 @WebServiceProvider
 @ServiceMode(value = Service.Mode.PAYLOAD)
-public class Server implements Provider<Source> {
+public class App implements Provider<Source> {
 
     public Source invoke(Source request) {
         return  new StreamSource(new StringReader(Dep.hello("GitLab")));
