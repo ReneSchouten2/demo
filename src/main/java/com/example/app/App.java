@@ -19,7 +19,7 @@ public class App implements Provider<Source> {
     public static void main(String[] args) throws InterruptedException {
 
         String address = "http://0.0.0.0:80/";
-        Endpoint.create(HTTPBinding.HTTP_BINDING, new Server()).publish(address);
+        Endpoint.create(HTTPBinding.HTTP_BINDING, new App()).publish(address);
 
         Thread.sleep(Long.MAX_VALUE);
     }
