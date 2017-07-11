@@ -52,3 +52,7 @@ production:
   script:
     - kubectl apply -f k8s/deployment.yml
     - kubectl apply -f k8s/service.yml
+    - kubectl apply -f k8s/ingress.yml
+  environment:
+    name: production
+    url: https://java-frontend-production.35.185.40.222.nip.io
