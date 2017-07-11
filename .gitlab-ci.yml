@@ -36,13 +36,17 @@ package:
     paths: [target/demo-app-1.0-jar-with-dependencies.jar]
 
 deploy:
+  image: registry.gitlab.com/gitlab-examples/kubernetes-deploy
   stage: deploy
+  dependencies:
+    - package
   script:
     - command build
   only:
     - branches
 
 production:
+  image: registry.gitlab.com/gitlab-examples/kubernetes-deploy
   stage: production
   script:
     - command deploy
