@@ -10,7 +10,6 @@ stages:
 variables:
   MAVEN_CLI_OPTS: "--batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-  DOCKER_HOST: tcp://localhost:2375
   KUBE_DOMAIN: 35.185.20.222.nip.io
 
 cache:
