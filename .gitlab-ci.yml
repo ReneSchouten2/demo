@@ -11,6 +11,7 @@ variables:
   MAVEN_CLI_OPTS: "--batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   DOCKER_HOST: tcp://localhost:2375
+  KUBE_DOMAIN: 35.185.20.222.nip.io
 
 cache:
   paths:
@@ -35,24 +36,19 @@ package:
     paths: [target/demo-app-1.0-jar-with-dependencies.jar]
 
 deploy:
-  image: docker:latest
   stage: deploy
-  variables:
-    DOCKER_DRIVER: overlay
-  services:
-    - docker:dind
   script:
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker push $CI_REGISTRY_IMAGE
+    - command build
+  only:
+    - branches
 
 production:
-  image: silvs/kubectl:latest
   stage: production
   script:
-    - kubectl apply -f k8s/deployment.yml
-    - kubectl apply -f k8s/service.yml
-    - kubectl apply -f k8s/ingress.yml
+    - command deploy
   environment:
     name: production
-    url: https://java-frontend-production.35.185.40.222.nip.io
+    url: http://$CI_PROJECT_NAME.$KUBE_DOMAIN
+  only:
+    - master
+
