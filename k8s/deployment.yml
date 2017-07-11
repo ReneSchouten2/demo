@@ -20,3 +20,6 @@ spec:
         - -jar
         - /app/demo-app/demo-app-1.0-jar-with-dependencies.jar
         - "5000"
+        ports:
+        - name: web
+          containerPort: 5000
