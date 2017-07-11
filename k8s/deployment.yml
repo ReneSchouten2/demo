@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: java-frontend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: java-frontend
+        app: java-frontend
+        environment: production
+    spec:
+      containers:
+      - name: java-frontend
+        image: registry.aws.s1lv.com/developers-us/java-frontend:latest
+        imagePullPolicy: Always
+        command:
+        - java
+        - -jar
+        - /app/demo-app/demo-app-1.0-jar-with-dependencies.jar
+        - "5000"
+        ports:
+        - name: web
+          containerPort: 5000

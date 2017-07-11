@@ -4,13 +4,13 @@ stages:
   - build
   - test
   - package
-  - container
-  - run
+  - deploy
+  - production
 
 variables:
   MAVEN_CLI_OPTS: "--batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-  DOCKER_HOST: tcp://localhost:2375
+  KUBE_DOMAIN: 35.185.20.222.nip.io
 
 cache:
   paths:
@@ -35,19 +35,23 @@ package:
     paths: [target/demo-app-1.0-jar-with-dependencies.jar]
 
 deploy:
-  image: docker:latest
-  stage: container
-  variables:
-    DOCKER_DRIVER: overlay
-  services:
-    - docker:dind
+  image: registry.gitlab.com/gitlab-examples/kubernetes-deploy
+  stage: deploy
+  dependencies:
+    - package
   script:
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker push $CI_REGISTRY_IMAGE
+    - command build
+  only:
+    - branches
 
-run:
-  image: $CI_REGISTRY_IMAGE
-  stage: run
+production:
+  image: registry.gitlab.com/gitlab-examples/kubernetes-deploy
+  stage: production
   script:
-    - java -jar /app/demo-app/demo-app-1.0-jar-with-dependencies.jar
+    - command deploy
+  environment:
+    name: production
+    url: http://$CI_PROJECT_NAME.$KUBE_DOMAIN
+  only:
+    - master
+
