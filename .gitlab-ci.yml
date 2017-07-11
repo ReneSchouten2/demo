@@ -5,7 +5,7 @@ stages:
   - test
   - package
   - deploy
-  - run
+  - production
 
 variables:
   MAVEN_CLI_OPTS: "--batch-mode"
