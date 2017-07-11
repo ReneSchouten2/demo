@@ -4,7 +4,7 @@ stages:
   - build
   - test
   - package
-  - deploy
+  - container
   - run
 
 variables:
@@ -36,7 +36,7 @@ package:
 
 deploy:
   image: docker:latest
-  stage: deploy
+  stage: container
   variables:
     DOCKER_DRIVER: overlay
   services:
